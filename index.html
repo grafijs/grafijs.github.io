@@ -115,7 +115,7 @@
   </div>
   <script type="text/javascript" src="grafi.js"></script>
   <script>
-  var $img = document.getElementById('image')
+  // var $img = document.getElementById('image')
   var $invert = document.getElementById('invert')
   var $bright = document.getElementById('bright')
   var $dark = document.getElementById('dark')
@@ -130,9 +130,10 @@
   var canvas = document.createElement('canvas')
   var ctx = canvas.getContext('2d')
   var original, newImage, imageCtx
-
+  var $img = new Image()
+  $img.src = 'giraffe.jpg';
   
-  // $img.onload = function () {
+  $img.onload = function () {
     // Setup Canvas & draw image onto it
     canvas.width = $img.width
     canvas.height = $img.height
@@ -209,7 +210,7 @@
       sharpworker.terminate()
     }
 
-  // }
+}
   </script>
 
 </body>
