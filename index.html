@@ -1,1 +1,216 @@
-heyo
+<!DOCTYPE html>
+<html>
+<head>
+    <title>grafi.js</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1'/>
+    <meta name="description" content="Simple utility library for Image Processing">
+    <link rel="canonical" href="https://grafijs.github.io/" />
+
+    <script>
+      var host = "grafijs.github.io"
+      if ((host === window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https"
+    </script>
+    <style type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Copse);
+
+    *{
+      background-color: #fff;
+      font-family: 'Copse', serif
+    }
+    h1{
+      font-size: 5em;
+    }
+    #container {
+      max-width:500px;
+      min-width: 250px;
+      margin-left: auto;
+      margin-right:auto;
+    }
+    a{
+      text-decoration: none;
+      color: #00144B;
+    }
+
+    h2 {
+      margin-top: 60px;
+    }
+    pre {
+      font-family:monospace;
+      overflow: scroll;
+      background-color:#F5F4F0;
+      padding:10px;
+      width:100%;
+      margin-top: 0px;
+      margin-bottom: 10px;
+      font-size: 1.5em;
+    }
+    </style>
+</head>
+<body>
+  <div id="container">
+    <header id="header" class="">
+      <img src="grafilogo.png" alt="" width="100px" style="float: left; padding-right:20px">
+      <h1>grafi.js</h1>
+    </header><!-- /header -->
+
+    <h2>JavaScript Image Processing Library</h2>
+    <p>grafi.js is a library intended for learning about how image processing works. Each modules are intentionally kept small and users are encouraged to read the source code to learn about different methods and algorithms. In result, grafi may not be the most performant or the most sophisticated image processing library, but that's the point.</p>
+    <p>Made by <a href="https://twitter.com/kosamari">@kosamari</a>. Code on <a href="https://github.com/grafijs/grafi">github</a>.</p>
+
+    <h2>Projects Using grafi.js</h2>
+    <h3><a href="http://kosamari.github.io/shift/">shift - faux tilt shift</a></h3>
+    <h3><a href="http://kosamari.github.io/fokus/">fokus - simple way to create focused image</a></h3>
+
+    <h2>Samples</h2>
+    <img src="giraffe.jpg" alt="" id="image">
+    <h2>Invert</h2>
+    <pre>grafi.invert(img)</pre>
+    <canvas id='invert'></canvas>
+
+    <h2>Brightness (50% bright)</h2>
+    <pre>grafi.brightness(img, {level: 127})</pre>
+    <canvas id='bright'></canvas>
+
+    <h2>Brightness (50% dark)</h2>
+    <pre>grafi.brightness(img, {level: -127})</pre >
+    <canvas id='dark'></canvas>
+
+    <h2>Contrast</h2>
+    <pre>grafi.contrast(img, {level: 2})</pre>
+    <canvas id='contrast'></canvas>
+
+    <h2>Posterize</h2>
+    <pre>grafi.posterize(img, {level: 4})</pre >
+    <canvas id='posterize'></canvas>
+
+    <h2>Solarize</h2>
+    <pre>grafi.solarize(img)</pre>
+    <canvas id='solarize'></canvas>
+
+    <h2>Grayscale</h2>
+    <pre>grafi.grayscale(img, {mode: 'luma'})</pre >
+    <canvas id='grayscale'></canvas>
+
+    <h2>Threshold (50%)</h2>
+    <pre>grafi.threshold(img, {level: 127})</pre >
+    <canvas id='threshold'></canvas>
+
+    <h2>Pseudocolor</h2>
+    <pre>grafi.pseudocolor(img)</pre >
+    <canvas id='pseudocolor'></canvas>
+
+    <h2>Blur</h2>
+    <pre>grafi.blur(img)</pre>
+    <canvas id='blur'></canvas>
+
+    <h2>Sharp</h2>
+    <pre>grafi.sharpen(img)</pre >
+    <canvas id='sharp'></canvas>
+
+    <footer>
+      <p>Photo Credit - D. Gordon E. Robertson CC BY-SA 3.0</p>
+    </footer>
+
+  </div>
+  <script type="text/javascript" src="grafi.js"></script>
+  <script>
+  var $img = document.getElementById('image')
+  var $invert = document.getElementById('invert')
+  var $bright = document.getElementById('bright')
+  var $dark = document.getElementById('dark')
+  var $posterize = document.getElementById('posterize')
+  var $contrast = document.getElementById('contrast')
+  var $solarize = document.getElementById('solarize')
+  var $grayscale = document.getElementById('grayscale')
+  var $threshold = document.getElementById('threshold')
+  var $pseudocolor = document.getElementById('pseudocolor')
+  var $blur = document.getElementById('blur')
+  var $sharp = document.getElementById('sharp')
+  var canvas = document.createElement('canvas')
+  var ctx = canvas.getContext('2d')
+  var original, newImage, imageCtx
+
+  
+  // $img.onload = function () {
+    // Setup Canvas & draw image onto it
+    canvas.width = $img.width
+    canvas.height = $img.height
+    ctx.drawImage($img, 0, 0)
+    original = ctx.getImageData(0,0, canvas.width, canvas.height)
+
+    $invert.width = $img.width
+    $invert.height = $img.height
+    imageCtx = $invert.getContext('2d')
+    imageCtx.putImageData(grafi.invert(original), 0, 0)
+
+    $bright.width = $img.width
+    $bright.height = $img.height
+    imageCtx = $bright.getContext('2d')
+    imageCtx.putImageData(grafi.brightness(original, {level:127}), 0, 0)
+
+    $dark.width = $img.width
+    $dark.height = $img.height
+    imageCtx = $dark.getContext('2d')
+    imageCtx.putImageData(grafi.brightness(original, {level: -127}), 0, 0)
+
+    $contrast.width = $img.width
+    $contrast.height = $img.height
+    imageCtx = $contrast.getContext('2d')
+    imageCtx.putImageData(grafi.contrast(original, {level: 2}), 0, 0)
+
+    $posterize.width = $img.width
+    $posterize.height = $img.height
+    imageCtx = $posterize.getContext('2d')
+    imageCtx.putImageData(grafi.posterize(original, {level: 4}), 0, 0)
+
+    $solarize.width = $img.width
+    $solarize.height = $img.height
+    imageCtx = $solarize.getContext('2d')
+    imageCtx.putImageData(grafi.solarize(original), 0, 0)
+
+    $grayscale.width = $img.width
+    $grayscale.height = $img.height
+    imageCtx = $grayscale.getContext('2d')
+    imageCtx.putImageData(grafi.grayscale(original, {mode:'luma'}), 0, 0)
+
+    $threshold.width = $img.width
+    $threshold.height = $img.height
+    imageCtx = $threshold.getContext('2d')
+    imageCtx.putImageData(grafi.threshold(original, {level:127}), 0, 0)
+
+    $pseudocolor.width = $img.width
+    $pseudocolor.height = $img.height
+    imageCtx = $pseudocolor.getContext('2d')
+    imageCtx.putImageData(grafi.pseudocolor(original), 0, 0)
+
+
+    var blurworker = new Worker('blurworker.js')
+    var blurData = ctx.getImageData(0,0, canvas.width, canvas.height)
+    blurworker.postMessage(blurData, [blurData.data.buffer])
+    blurworker.onmessage = function (message) {
+      $blur.width = $img.width
+      $blur.height = $img.height
+      imageCtx = $blur.getContext('2d')
+      var newimg = message.data
+      imageCtx.putImageData(new ImageData(newimg.data, newimg.width, newimg.height), 0, 0)
+      blurworker.terminate()
+    }
+
+    var sharpworker = new Worker('sharpworker.js')
+    var sharpData = ctx.getImageData(0,0, canvas.width, canvas.height)
+    sharpworker.postMessage(sharpData, [sharpData.data.buffer])
+    sharpworker.onmessage = function (message) {
+      $sharp.width = $img.width
+      $sharp.height = $img.height
+      imageCtx = $sharp.getContext('2d')
+      var newimg = message.data
+      imageCtx.putImageData(new ImageData(newimg.data, newimg.width, newimg.height), 0, 0)
+      sharpworker.terminate()
+    }
+
+  // }
+  </script>
+
+</body>
+</html>
